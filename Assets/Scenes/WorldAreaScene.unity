@@ -1852,7 +1852,7 @@ Transform:
   m_Children:
   - {fileID: 1653859530}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!114 &367510687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3203,7 +3203,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!114 &519740649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8915,7 +8915,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!114 &1604924875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11348,6 +11348,80 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300040, guid: daece15ef1c49ce43b863b90f3d605e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &1885027112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1885027113}
+  - 114: {fileID: 1885027114}
+  m_Layer: 0
+  m_Name: _Editor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1885027113
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1885027112}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &1885027114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1885027112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f369ab9fb27d24797ade78ab9c954ea7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StoryID: Tesuto
+  IsEditing: 1
+  _Story:
+    ID: Tesuto
+    StoryEvents:
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
+    - ID: 0
+      NextID: 0000000000000000
+      Type: 0
 --- !u!1 &1894825236
 GameObject:
   m_ObjectHideFlags: 0
