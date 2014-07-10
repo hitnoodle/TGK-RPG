@@ -1,12 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
+using System.Xml;
+using System.Xml.Serialization;
+
 using UnityEngine;
 
 namespace RPG.Stories
 {
 	// Hack, not abstract yet.
 	[System.Serializable]
+	[XmlInclude(typeof(StoryTextEvent))]
+	[XmlInclude(typeof(StoryChoiceEvent))]
+	[XmlInclude(typeof(StoryWaitEvent))]
+	[XmlInclude(typeof(StoryMessageEvent))]
+	[XmlInclude(typeof(StoryEndEvent))]
 	public class StoryEvent 
 	{
 		/// <summary>
@@ -36,8 +44,6 @@ namespace RPG.Stories
 		public StoryEvent()
 		{
 			NextID = new List<int>();
-			NextID.Add(0);
-			NextID.Add(0); // HACK
 		}
 	}
 }

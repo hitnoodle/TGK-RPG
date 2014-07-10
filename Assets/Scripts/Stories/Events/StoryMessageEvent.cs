@@ -15,6 +15,14 @@ namespace RPG.Stories
 		/// </summary>
 		public string Metadata;
 
+		public StoryMessageEvent() : base()
+		{
+			Type = StoryEventType.Message;
+			
+			Message = "";
+			Metadata = "";
+		}
+
 		public StoryMessageEvent(string message, string metadata) : base()
 		{
 			Type = StoryEventType.Message;

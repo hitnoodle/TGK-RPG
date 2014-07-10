@@ -22,12 +22,8 @@ namespace RPG.Stories
 			CurrentText = new StoryText();
 
 			Choices = new List<string>();
-			Choices.Add("");
-			Choices.Add("");
 
 			NextID.Clear();
-			NextID.Add(0);
-			NextID.Add(0);
 		}
 
 		public StoryChoiceEvent(StoryText text, List<string> choices) : base()
@@ -38,8 +34,8 @@ namespace RPG.Stories
 
 			Choices = choices;
 
-			int diff = Choices.Count - NextID.Count;
-			for(int i=0;i<diff;i++) NextID.Add(0);
+			NextID.Clear();
+			for(int i=0;i<Choices.Count;i++) NextID.Add(0);
 		}
 	}
 }

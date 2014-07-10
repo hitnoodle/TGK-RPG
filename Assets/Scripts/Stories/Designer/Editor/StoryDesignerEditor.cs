@@ -14,15 +14,6 @@ public class StoryDesignerEditor : Editor
 			return;
 	}
 
-	void DrawLoadLayout(StoryDesigner designer)
-	{
-		SerializedProperty storyID = serializedObject.FindProperty("StoryID");
-		storyID.stringValue = EditorGUILayout.TextField ("Story ID", storyID.stringValue);
-		
-		if (GUILayout.Button("Load / Create"))
-			designer.Load(designer.StoryID);
-	}
-	
 	void DrawSaveLayout(StoryDesigner designer)
 	{
 		EditorGUILayout.BeginHorizontal();
@@ -72,7 +63,7 @@ public class StoryDesignerEditor : Editor
 			int enum_index = evType.enumValueIndex;
 			
 			StoryEvent storyEvent = null;
-			if (i >= 0 && i < story.StoryEvents.Length) storyEvent = story.StoryEvents[i];
+     			if (i >= 0 && i < story.StoryEvents.Length) storyEvent = story.StoryEvents[i];
 			
 			if (storyEvent != null)
 			{
@@ -204,7 +195,10 @@ public class StoryDesignerEditor : Editor
 
 				// Choice and End event is special
 				if (enum_index != 1 && enum_index != 4)
+				{
+					if (storyEvent.NextID.Count == 0) storyEvent.NextID.Add(0);
 					storyEvent.NextID[0] = EditorGUILayout.IntField ("To ID", storyEvent.NextID[0]);
+				}
 			}
 
 			EditorGUILayout.Space();
@@ -218,7 +212,15 @@ public class StoryDesignerEditor : Editor
 
 		StoryDesigner script = (StoryDesigner) target;
 
-		DrawLoadLayout(script);
+		SerializedProperty storyID = serializedObject.FindProperty("StoryID");
+		storyID.stringValue = EditorGUILayout.TextField ("Story ID", storyID.stringValue);
+		
+		if (GUILayout.Button("Load / Create"))
+		{
+			script.Load(script.StoryID);
+
+			return;
+		}
 
 		if (script.IsEditing)
 		{

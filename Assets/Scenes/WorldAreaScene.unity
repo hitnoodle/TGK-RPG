@@ -11390,38 +11390,23 @@ MonoBehaviour:
   StoryID: Tesuto
   IsEditing: 1
   _Story:
-    ID: Tesuto
+    ID: 
     StoryEvents:
     - ID: 0
-      NextID: 0000000000000000
+      NextID: 00000000
       Type: 0
     - ID: 0
-      NextID: 0000000000000000
+      NextID: 00000000
       Type: 0
     - ID: 0
-      NextID: 0000000000000000
+      NextID: 
+      Type: 1
+    - ID: 0
+      NextID: 00000000
       Type: 0
     - ID: 0
-      NextID: 0000000000000000
-      Type: 0
-    - ID: 0
-      NextID: 0000000000000000
-      Type: 0
-    - ID: 0
-      NextID: 0000000000000000
-      Type: 0
-    - ID: 0
-      NextID: 0000000000000000
-      Type: 0
-    - ID: 0
-      NextID: 0000000000000000
-      Type: 0
-    - ID: 0
-      NextID: 0000000000000000
-      Type: 0
-    - ID: 0
-      NextID: 0000000000000000
-      Type: 0
+      NextID: 
+      Type: 4
 --- !u!1 &1894825236
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,13 @@ namespace RPG.Stories
 		/// </summary>
 		public float Seconds;
 
+		public StoryWaitEvent() : base()
+		{
+			Type = StoryEventType.Wait;
+			
+			Mode = WaitMode.Continue;
+		}
+
 		public StoryWaitEvent(WaitMode mode) : base()
 		{
 			Type = StoryEventType.Wait;

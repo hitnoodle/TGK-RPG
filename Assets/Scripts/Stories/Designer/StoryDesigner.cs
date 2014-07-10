@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.IO;
 
 using RPG.Stories;
 
@@ -29,11 +30,13 @@ public class StoryDesigner : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-	
+
 	}
 	
 	void Create(string id)
 	{
+		_Story = new Story();
+
 		_Story.ID = StoryID;
 		_Story.StoryEvents = new StoryEvent[1];
 		_Story.StoryEvents[0] = new StoryEndEvent();
@@ -44,7 +47,24 @@ public class StoryDesigner : MonoBehaviour
 	public void Load(string id)
 	{
 		if (id != "")
-			Create(id);
+		{
+			//See path
+			string path = Application.persistentDataPath + "/" + id;
+			
+			//Create first if haven't
+			if (!File.Exists(path))
+			{
+				Create(id);
+				Save();
+			} 
+			else
+			{
+				//Load
+				_Story = (Story)XmlManager.LoadInstanceAsXml(id, typeof(Story));
+			}
+
+			IsEditing = true;
+		}
 	}
 	
 	public void Clear()
@@ -56,13 +76,14 @@ public class StoryDesigner : MonoBehaviour
 
 	public void Save()
 	{
-		
+		if (_Story.ID != "")
+			XmlManager.SaveInstanceAsXml(_Story.ID, typeof(Story), _Story);
 	}
 
 	public void Done()
 	{
-		Save();
-		Clear();
+		//Save();
+		//Clear();
 
 		IsEditing = false;
 	}
