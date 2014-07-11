@@ -19,5 +19,18 @@ namespace RPG.Stories
 		/// All the events information of this story.
 		/// </summary>
 		public StoryEvent[] StoryEvents;
+
+		/// <summary>
+		/// Return story events at ID 
+		/// </summary>
+		public StoryEvent eventAtID(int id)
+		{
+			foreach(StoryEvent ev in StoryEvents)
+			{
+				if (ev.ID == id) return ev;
+			}
+
+			return null;
+		}
 	}
 }
