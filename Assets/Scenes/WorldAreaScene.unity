@@ -11694,11 +11694,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StoryID: Tesuto
-  IsEditing: 0
+  IsEditing: 1
   _Story:
-    ID: 
+    ID: Tesuto
     StoryEvents:
     - ID: 0
+      NextID: 01000000
+      Type: 0
+    - ID: 1
+      NextID: 02000000
+      Type: 0
+    - ID: 2
+      NextID: 0300000004000000
+      Type: 0
+    - ID: 3
+      NextID: 04000000
+      Type: 0
+    - ID: 4
       NextID: 
       Type: 4
 --- !u!1 &1894825236

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace RPG.Stories
 {
@@ -15,6 +16,18 @@ namespace RPG.Stories
 
 		public delegate void onTextEvent(StoryText storyText);
 		public static onTextEvent OnTextEvent;
+
+		public delegate void onChoiceEvent(StoryText storyText, List<string> choices);
+		public static onChoiceEvent OnChoiceEvent;
+
+		public delegate void onWaitEventStart();
+		public static onWaitEventStart OnWaitEventStart;
+
+		public delegate void onWaitEventEnd();
+		public static onWaitEventEnd OnWaitEventEnd;
+
+		public delegate void onMessageEvent(string message, string metadata);
+		public static onMessageEvent OnMessageEvent;
 
 		public delegate void onEnd();
 		public static onEnd OnEnd;
@@ -49,6 +62,11 @@ namespace RPG.Stories
 				Debug.LogError("[Story Teller] No story at file " + story);
 		}
 
+		IEnumerator Wait(float seconds)
+		{
+			yield return new WaitForSeconds(seconds);
+		}
+
 		public static void Start(string story)
 		{
 			if (_Instance == null) return;
@@ -81,11 +99,21 @@ namespace RPG.Stories
 			}
 			else
 			{
+				// Call wait complete if our last event are wait
+				if (_Instance.currentEvent.Type == StoryEvent.StoryEventType.Wait)
+				{
+					_Instance.StopAllCoroutines();
+
+					if (OnWaitEventEnd != null)
+						OnWaitEventEnd();
+				}
+
 				// Get next event
 				_Instance.currentId = _Instance.currentEvent.NextID[choice];
 				_Instance.currentEvent = _Instance._Story.eventAtID(_Instance.currentId); // Maybe null
 			}
 
+			// Call delegate according to what kind of event right now
 			if (_Instance.currentEvent != null)
 			{
 				StoryEvent.StoryEventType evType = 	_Instance.currentEvent.Type;
@@ -96,6 +124,30 @@ namespace RPG.Stories
 
 					if (OnTextEvent != null)
 						OnTextEvent(sev.CurrentText);
+				}
+				else if (evType == StoryEvent.StoryEventType.Choice)
+				{
+					StoryChoiceEvent sev = (StoryChoiceEvent) _Instance.currentEvent;
+					
+					if (OnChoiceEvent != null)
+						OnChoiceEvent(sev.CurrentText, sev.Choices);
+				}
+				else if (evType == StoryEvent.StoryEventType.Wait)
+				{
+					StoryWaitEvent sev = (StoryWaitEvent) _Instance.currentEvent;
+
+					if (sev.Mode == StoryWaitEvent.WaitMode.Seconds)
+						_Instance.StartCoroutine(_Instance.Wait(sev.Seconds));
+
+					if (OnWaitEventStart != null)
+						OnWaitEventStart();
+				}
+				else if (evType == StoryEvent.StoryEventType.Message)
+				{
+					StoryMessageEvent sev = (StoryMessageEvent) _Instance.currentEvent;
+					
+					if (OnMessageEvent != null)
+						OnMessageEvent(sev.Message, sev.Metadata);
 				}
 				else if (evType == StoryEvent.StoryEventType.End)
 				{
