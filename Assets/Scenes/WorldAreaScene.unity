@@ -11706,7 +11706,7 @@ MonoBehaviour:
       Type: 0
     - ID: 2
       NextID: 0300000004000000
-      Type: 0
+      Type: 2
     - ID: 3
       NextID: 04000000
       Type: 0

@@ -18,7 +18,7 @@ namespace RPG.Stories
 		/// <summary>
 		/// All the events information of this story.
 		/// </summary>
-		public StoryEvent[] StoryEvents;
+		public List<StoryEvent> StoryEvents;
 
 		/// <summary>
 		/// Return story events at ID 

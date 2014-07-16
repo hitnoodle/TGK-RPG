@@ -20,7 +20,7 @@ namespace RPG.Stories
 		public delegate void onChoiceEvent(StoryText storyText, List<string> choices);
 		public static onChoiceEvent OnChoiceEvent;
 
-		public delegate void onWaitEventStart();
+		public delegate void onWaitEventStart(bool waitForContinue);
 		public static onWaitEventStart OnWaitEventStart;
 
 		public delegate void onWaitEventEnd();
@@ -65,6 +65,9 @@ namespace RPG.Stories
 		IEnumerator Wait(float seconds)
 		{
 			yield return new WaitForSeconds(seconds);
+
+			if (OnWaitEventEnd != null)
+				OnWaitEventEnd();
 		}
 
 		public static void Start(string story)
@@ -140,7 +143,10 @@ namespace RPG.Stories
 						_Instance.StartCoroutine(_Instance.Wait(sev.Seconds));
 
 					if (OnWaitEventStart != null)
-						OnWaitEventStart();
+					{
+						bool waitForContinue = (sev.Mode == StoryWaitEvent.WaitMode.Continue);
+						OnWaitEventStart(waitForContinue);
+					}
 				}
 				else if (evType == StoryEvent.StoryEventType.Message)
 				{

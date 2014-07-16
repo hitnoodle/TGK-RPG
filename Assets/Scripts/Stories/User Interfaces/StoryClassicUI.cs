@@ -14,6 +14,7 @@ public class StoryClassicUI : MonoBehaviour
 	public TextMesh TextStory;
 
 	private bool started = false;
+	private bool waiting = false;
 	private PlayerControl playerControl;
 
 	// Use this for initialization
@@ -22,6 +23,8 @@ public class StoryClassicUI : MonoBehaviour
 		StoryTeller.OnStart += Show;
 		StoryTeller.OnTextEvent += ShowCurrentText;
 		StoryTeller.OnEnd += Hide;
+		StoryTeller.OnWaitEventStart += HideWait;
+		StoryTeller.OnWaitEventEnd += ShowWait;
 
 		playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
 	}
@@ -43,6 +46,16 @@ public class StoryClassicUI : MonoBehaviour
 	void Show()
 	{
 		StartCoroutine(ShowUIRoutine(ShowDelay));
+	}
+
+	void ShowWait()
+	{
+		Box.gameObject.SetActive(true);
+		
+		TextName.gameObject.SetActive(true);
+		TextStory.gameObject.SetActive(true);
+
+		waiting = false;
 	}
 
 	// Wrap text by line height
@@ -101,11 +114,31 @@ public class StoryClassicUI : MonoBehaviour
 		
 		playerControl.UnblockInput();
 	}
+
+	void HideWait(bool waitForContinue)
+	{
+		waiting = true;
+		
+		Box.gameObject.SetActive(false);
+		
+		TextName.gameObject.SetActive(false);
+		TextStory.gameObject.SetActive(false);
+
+		if (waitForContinue)
+			StartCoroutine(TestWaitContinue());
+	}
+
+	IEnumerator TestWaitContinue()
+	{
+		yield return new WaitForSeconds(2);
+
+		StoryTeller.Continue();
+	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if (started)
+		if (started && !waiting)
 		{
 			if (Input.GetKeyDown(KeyCode.Space)) StoryTeller.Continue();
 		}

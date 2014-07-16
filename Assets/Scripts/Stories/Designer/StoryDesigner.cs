@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 
 using RPG.Stories;
@@ -38,8 +39,8 @@ public class StoryDesigner : MonoBehaviour
 		_Story = new Story();
 
 		_Story.ID = StoryID;
-		_Story.StoryEvents = new StoryEvent[1];
-		_Story.StoryEvents[0] = new StoryEndEvent();
+		_Story.StoryEvents = new List<StoryEvent>();
+		_Story.StoryEvents.Add(new StoryEndEvent());
 
 		IsEditing = true;
 	}
@@ -70,8 +71,8 @@ public class StoryDesigner : MonoBehaviour
 	public void Clear()
 	{
 		_Story.ID = "";
-		_Story.StoryEvents = new StoryEvent[1];
-		_Story.StoryEvents[0] = new StoryEndEvent();
+		_Story.StoryEvents = new List<StoryEvent>();
+		_Story.StoryEvents.Add(new StoryEndEvent());
 	}
 
 	public void Save()
