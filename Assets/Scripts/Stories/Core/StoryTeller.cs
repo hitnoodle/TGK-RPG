@@ -68,6 +68,8 @@ namespace RPG.Stories
 
 			if (OnWaitEventEnd != null)
 				OnWaitEventEnd();
+
+			Continue();
 		}
 
 		public static void Start(string story)

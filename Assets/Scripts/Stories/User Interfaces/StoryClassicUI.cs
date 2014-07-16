@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 using RPG.Stories;
 
@@ -13,8 +14,19 @@ public class StoryClassicUI : MonoBehaviour
 	public TextMesh TextName;
 	public TextMesh TextStory;
 
+	public SpriteRenderer ChoiceBox;
+	public TextMesh ChoiceText;
+
+	// Hail flag
 	private bool started = false;
 	private bool waiting = false;
+
+	private bool displayChoice = false;
+
+	private List<string> currentChoices;
+	private int choiceSelected;
+	private Vector3 defaultBoxScale;
+
 	private PlayerControl playerControl;
 
 	// Use this for initialization
@@ -22,25 +34,15 @@ public class StoryClassicUI : MonoBehaviour
 	{
 		StoryTeller.OnStart += Show;
 		StoryTeller.OnTextEvent += ShowCurrentText;
+		StoryTeller.OnChoiceEvent += ShowCurrentChoice;
 		StoryTeller.OnEnd += Hide;
 		StoryTeller.OnWaitEventStart += HideWait;
 		StoryTeller.OnWaitEventEnd += ShowWait;
 
+		choiceSelected = 0;
+		defaultBoxScale = transform.localScale;
+
 		playerControl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>();
-	}
-
-	IEnumerator ShowUIRoutine(float delay)
-	{
-		playerControl.BlockInput(delay);
-
-		yield return new WaitForSeconds(delay);
-
-		Box.gameObject.SetActive(true);
-		
-		TextName.gameObject.SetActive(true);
-		TextStory.gameObject.SetActive(true);
-
-		started = true;
 	}
 
 	void Show()
@@ -48,14 +50,36 @@ public class StoryClassicUI : MonoBehaviour
 		StartCoroutine(ShowUIRoutine(ShowDelay));
 	}
 
+	IEnumerator ShowUIRoutine(float delay)
+	{
+		playerControl.BlockInput(delay);
+		
+		yield return new WaitForSeconds(delay);
+		
+		ShowUI();
+		started = true;
+	}
+
 	void ShowWait()
+	{
+		ShowUI();
+		waiting = false;
+	}
+
+	void ShowUI()
 	{
 		Box.gameObject.SetActive(true);
 		
 		TextName.gameObject.SetActive(true);
 		TextStory.gameObject.SetActive(true);
-
-		waiting = false;
+	}
+	
+	void ShowChoiceUI()
+	{
+		displayChoice = true;
+		
+		ChoiceBox.gameObject.SetActive(true);
+		ChoiceText.gameObject.SetActive(true);
 	}
 
 	// Wrap text by line height
@@ -99,18 +123,61 @@ public class StoryClassicUI : MonoBehaviour
 
 	void ShowCurrentText(StoryText storyText)
 	{
+		HideChoiceUI();
+
 		TextName.text = storyText.Name;
 		TextStory.text = ResolveTextSize(storyText.Text, LineLength);
+	}
+
+	void ShowCurrentChoice(StoryText storyText, List<string> choices)
+	{
+		TextName.text = storyText.Name;
+		TextStory.text = ResolveTextSize(storyText.Text, LineLength);
+
+		ShowChoiceUI();
+
+		currentChoices = choices;
+
+		string choiceResolved = ResolveChoiceText(currentChoices, choiceSelected);
+		ChoiceText.text = choiceResolved;
+
+		ResolveChoiceBox(choices);
+	}
+
+	string ResolveChoiceText(List<string> choices, int choice)
+	{
+		string choices_string = "";
+		for(int i=0;i<choices.Count;i++)
+		{
+			string s = "";
+			if (i == choice) s += "> ";
+
+			s += choices[i];
+			choices_string += s;
+
+			if (i != choices.Count - 1)
+				choices_string += "\n";
+		}
+
+		return choices_string;
+	}
+
+	void ResolveChoiceBox(List<string> choiceText)
+	{
+		float height = (float)(choiceText.Count - 1) * 0.75f;
+
+		int stringWidth = 4;
+		foreach(string s in choiceText)
+			stringWidth = Mathf.Max(stringWidth, s.Length + 2);
+
+		ChoiceBox.transform.localScale = new Vector3(defaultBoxScale.x * ((float)stringWidth / 3.5f), defaultBoxScale.y + height, defaultBoxScale.z);
 	}
 	
 	void Hide()
 	{
 		started = false;
 
-		Box.gameObject.SetActive(false);
-		
-		TextName.gameObject.SetActive(false);
-		TextStory.gameObject.SetActive(false);
+		HideUI();
 		
 		playerControl.UnblockInput();
 	}
@@ -118,14 +185,34 @@ public class StoryClassicUI : MonoBehaviour
 	void HideWait(bool waitForContinue)
 	{
 		waiting = true;
-		
+
+		HideUI();
+		HideChoiceUI();
+
+		if (waitForContinue)
+			StartCoroutine(TestWaitContinue());
+	}
+
+	void HideUI()
+	{
 		Box.gameObject.SetActive(false);
 		
 		TextName.gameObject.SetActive(false);
 		TextStory.gameObject.SetActive(false);
+	}
 
-		if (waitForContinue)
-			StartCoroutine(TestWaitContinue());
+	void HideChoiceUI()
+	{
+		if (displayChoice)
+		{
+			choiceSelected = 0;
+			currentChoices = null;
+
+			ChoiceBox.gameObject.SetActive(false);
+			ChoiceText.gameObject.SetActive(false);
+
+			displayChoice = false;
+		}
 	}
 
 	IEnumerator TestWaitContinue()
@@ -136,11 +223,27 @@ public class StoryClassicUI : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void Update() 
 	{
 		if (started && !waiting)
 		{
-			if (Input.GetKeyDown(KeyCode.Space)) StoryTeller.Continue();
+			int choice = 0;
+
+			if (displayChoice)
+			{
+				if (Input.GetKeyDown(KeyCode.UpArrow))
+					choiceSelected--;
+				else if (Input.GetKeyDown(KeyCode.DownArrow))
+					choiceSelected++;
+
+				choiceSelected = Mathf.Clamp(choiceSelected, 0, currentChoices.Count - 1);
+				string choiceResolved = ResolveChoiceText(currentChoices, choiceSelected);
+				ChoiceText.text = choiceResolved;
+
+				choice = choiceSelected;
+			}
+
+			if (Input.GetKeyDown(KeyCode.Space)) StoryTeller.Continue(choice);
 		}
 	}
 }
