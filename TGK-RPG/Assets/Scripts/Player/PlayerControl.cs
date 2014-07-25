@@ -15,6 +15,8 @@ public class PlayerControl : MonoBehaviour
 	protected float _SpriteHalfWidth;
 	protected float _SpriteHalfHeight;
 
+	protected bool blockInput = false;
+
 	// Use this for initialization
 	void Start() 
 	{
@@ -30,11 +32,13 @@ public class PlayerControl : MonoBehaviour
 	// Update is called once per frame
 	void Update() 
 	{
-		float horizontal = Input.GetAxis("Horizontal");
-		float vertical = Input.GetAxis("Vertical");
-		
-		Move(horizontal, vertical);
-
+		if (!blockInput)
+		{
+			float horizontal = Input.GetAxis("Horizontal");
+			float vertical = Input.GetAxis("Vertical");
+			
+			Move(horizontal, vertical);
+		}
 	}
 
 	void Move(float horizontal, float vertical)
@@ -75,5 +79,22 @@ public class PlayerControl : MonoBehaviour
 		}
 
 		_Transform.position = position;
+	}
+
+	IEnumerator BlockInputRoutine(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+
+		blockInput = true;
+	}
+
+	public void BlockInput(float delay)
+	{
+		StartCoroutine(BlockInputRoutine(delay));
+	}
+
+	public void UnblockInput()
+	{
+		blockInput = false;
 	}
 }

@@ -39,10 +39,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5769d36c816c374489f3cbf75d0d192c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: []
-  itemIcon: []
-  itemDropTexture: []
-  itemEquipTexture: []
+  itemName:
+  - Knife
+  itemIcon:
+  - sprite: {fileID: 0}
+  itemDropTexture:
+  - sprite: {fileID: 21300000, guid: 9484c674e2e846a429f752ddf88c4923, type: 3}
+  itemEquipTexture:
+  - sprite: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

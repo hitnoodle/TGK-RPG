@@ -68,10 +68,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab20ba9e14ad14a4bb7dc79a7018c8be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items:
-  - Knife
+  items: []
   isOpened: 0
-  openedChest: {fileID: 21300000, guid: 66cc4902153465745945ec8eeac6ed5a, type: 3}
+  openedChest: {fileID: 21300000, guid: 325936758a3390f4dbc4da3df9ca676f, type: 3}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -92,7 +91,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 4004946117
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9517254ba1e89f0408cfacc90a43f00c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5955c4649cc9470419169d8e0229be0e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:

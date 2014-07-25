@@ -22,6 +22,7 @@ public class Inventory : MonoBehaviour {
 			items.Add(item);
 			amounts.Add(amount);
 		}
+		Debug.Log(item.ID+" has been added to your inventory");
 	}
 
 	public void RemoveFromInventory (Item item, int amount) {
@@ -32,6 +33,7 @@ public class Inventory : MonoBehaviour {
 				items.Remove(item);
 			}
 		}
+		Debug.Log(item.ID+" has been removed from your inventory");
 	}
 	
 }

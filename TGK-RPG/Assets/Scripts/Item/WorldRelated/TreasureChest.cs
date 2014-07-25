@@ -21,6 +21,7 @@ public class TreasureChest : InteractiveObject {
 			isOpened = true;
 			
 			GetComponent<SpriteRenderer>().sprite = openedChest;
+			Debug.Log("You have opened a treasure chest");
 		}
 	}
 }

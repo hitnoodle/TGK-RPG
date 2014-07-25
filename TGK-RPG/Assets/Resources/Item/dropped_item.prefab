@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: 
-  sm: {fileID: 11400000, guid: 69f6212134d0be648b40578cb6f1ef3f, type: 2}
+  sm: {fileID: 11400000, guid: 4acd3cda905350d4894a2b3d2bc4f922, type: 2}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
